@@ -39,10 +39,8 @@ Time Management
 To put the amount of time creating a quality TTS Voice will take into perspective, let's do some math:
 
 * Each recording can take anywhere from 1 to 3 minutes
-* 30,000 phrases can be recorded
-* The minimum number of phrases needed is 15,000
-* You should not spend more than 4 hours a day recording
-* We'll assume you do recordings every day
+* 30,000 phrases can be recorded, but a minimum of 15,000 phrases are needed
+* You are spending no more than 4 hours a day recording
 
 Phrases | 1 Minute  | 3 minutes
 --------|-----------|-----------
