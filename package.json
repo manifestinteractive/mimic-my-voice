@@ -1,0 +1,73 @@
+{
+  "name": "mimic-my-voice",
+  "version": "1.0.0",
+  "description": "Text to Speech Engine using My Voice using Mycroft Mimic Trainer & Mimic Recording Studio.",
+  "homepage": "https://github.com/manifestinteractive/mimic-my-voice#readme",
+  "author": "Peter Schmalfeldt",
+  "license": "MIT",
+  "main": "./bin/cli.js",
+  "bin": {
+    "mimic": "./bin/cli.js"
+  },
+  "engines": {
+    "node": ">=11.6.0"
+  },
+  "contributors": [
+    {
+      "name": "Peter Schmalfeldt",
+      "email": "me@peterschmalfeldt.com",
+      "url": "https://peterschmalfeldt.com"
+    }
+  ],
+  "keywords": [
+    "linux",
+    "macos",
+    "mimic",
+    "mycroft",
+    "recording",
+    "speech",
+    "studio",
+    "text",
+    "trainer",
+    "training",
+    "tts",
+    "voice",
+    "windows"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manifestinteractive/mimic-my-voice.git"
+  },
+  "bugs": {
+    "url": "https://github.com/manifestinteractive/mimic-my-voice/issues"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint . --fix",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "test": "eslint --ext .js ./ --fix && echo '\n【ツ】CODE PERFECTION !!!\n'"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "minimist": "^1.2.5",
+    "prettier": "^2.3.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "debug": "^4.3.1",
+    "dotenv": "^10.0.0",
+    "ora": "^5.4.0",
+    "s3-sync-client": "^1.2.0",
+    "shelljs": "^0.8.4",
+    "yargs": "^17.0.1"
+  }
+}

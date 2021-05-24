@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+    "window.title": "Mimic My Voice${separator}${activeEditorShort}",
+		"cSpell.words": [
+			"mycroft"
+		]
+	}
+}
