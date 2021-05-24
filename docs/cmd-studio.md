@@ -42,9 +42,9 @@ To put the amount of time creating a quality TTS Voice will take into perspectiv
 * 30,000 phrases can be recorded, but a minimum of 15,000 phrases are needed
 * You are spending no more than 4 hours a day recording
 
-Phrases | 1 Minute  | 3 minutes
---------|-----------|-----------
-15,000  | 62.5 Days | 187.5 Days
-20,000  | 83 Days   | 250 Days
-25,000  | 104 Days  | 312.5 Days
-30,000  | 125 Days  | 375 Days
+Phrases | Quality | 1 Minute  | 3 minutes
+--------|---------|-----------|-----------
+15,000  | Poor    | 62.5 Days | 187.5 Days
+20,000  | Good    | 83 Days   | 250 Days
+25,000  | Better  | 104 Days  | 312.5 Days
+30,000  | Best    | 125 Days  | 375 Days
