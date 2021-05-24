@@ -20,7 +20,7 @@ Using Mimic Recording Studio
 
 ### Recording Tips
 
-Creating a TTS Voice requires an achievable but significant effort.  There are over 30,000 total phrases, and the more you record, the better TTS Voice we can make. You will need to record a minimum of 15,000 - 20,000 phrases to create a decent TTS Voice.
+Creating a TTS Voice requires an achievable but significant effort.  There are over 30,000 total phrases, and the more you record, the better TTS Voice you can make. You will need to record a minimum of 15,000 - 20,000 phrases to create a decent TTS Voice.
 
 To get the best recordings, you need to be clean and consistent.
 
