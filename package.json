@@ -1,7 +1,7 @@
 {
   "name": "mimic-my-voice",
   "version": "1.0.0",
-  "description": "Text to Speech Engine using My Voice using Mycroft Mimic Trainer & Mimic Recording Studio.",
+  "description": "Create a Text to Speech Engine using Your Own Voice with Mycroft Mimic Trainer & Mimic Recording Studio.",
   "homepage": "https://github.com/manifestinteractive/mimic-my-voice#readme",
   "author": "Peter Schmalfeldt",
   "license": "MIT",

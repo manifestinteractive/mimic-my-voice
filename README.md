@@ -3,7 +3,7 @@
 Mimic My Voice
 ===
 
-> Text to Speech Engine using My Voice using Mycroft Mimic Trainer & Mimic Recording Studio.
+> Create a Text to Speech Engine using Your Own Voice with Mycroft Mimic Trainer & Mimic Recording Studio.
 
 ### NOTE:  This is a Work in Progress
 
