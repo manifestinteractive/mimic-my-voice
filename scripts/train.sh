@@ -36,7 +36,90 @@ __train_linux(){
 
 # Train Script for MacOS
 __train_macos(){
-    __notice 'MacOS Support Coming Soon'
+     __make_header 'Mimic My Voice - MacOS'
+
+    __output 'Starting Mimic Trainer'
+    if [ -d mimic2 ]; then
+        # Check if docker is running
+        if ! docker info > /dev/null 2>&1; then
+            __error 'Docker does not seem to be running, run it first and retry'
+            __notice 'Need to Install Docker? https://www.docker.com/products/docker-desktop'
+            exit 1
+        fi
+
+        # Check if Docker Build needs to be created
+        if [[ "$(docker images -q mycroft/mimic2:cpu 2> /dev/null)" == "" ]]; then
+          __output 'Creating Docker Build since it does not exist'
+          docker build -t mycroft/mimic2:cpu -f mimic2/cpu.Dockerfile .
+        fi
+
+        # Process Data from Mimic Recording Studio
+        __make_header 'Processing Data'
+        docker run --rm \
+          --mount type=bind,source="$(pwd)"/mimic-recording-studio,target=/root/mimic-recording-studio \
+          --mount type=bind,source="$(pwd)"/tacotron,target=/root/tacotron \
+          -p 3001:3001 mycroft/mimic2:cpu \
+          "python3 -W ignore preprocess.py --dataset mrs --mrs_dir=/root/mimic-recording-studio"
+
+        # Monitor the Training Process in Browser Window
+        which -s tensorboard
+        if [[ $? == 0 ]]; then
+          __output 'Opening Monitor in Browser'
+          __notice 'Browser will reload after Monitor Starts'
+          # TODO: Figure out if this is better to kill the previous port rather than reusing it ... i.e. which is faster to reload
+          # TODO: Check if port is already running, as browser window is likely already open too, so no need to relaunch
+          # lsof -i TCP:6006 | grep LISTEN | awk '{print $2}' | xargs kill -9;
+          open http://localhost:6006
+          tensorboard --logdir tacotron/logs-tacotron --reuse_port true --window_title "Mimic My Voice" &> tensorboard.log &
+        fi
+
+        # Train Model from Processed Recording Studio Data
+        __make_header 'Training Model'
+        docker run --rm \
+          --mount type=bind,source="$(pwd)"/mimic-recording-studio,target=/root/mimic-recording-studio \
+          --mount type=bind,source="$(pwd)"/tacotron,target=/root/tacotron \
+          -p 3001:3001 mycroft/mimic2:cpu \
+          "python3 -W ignore train.py"
+
+        # Gernatate Analytics ff we have a local version of Python Running
+        # NOTE: This is using the NATIVE computer to generate the charts, as Docker does not generate Graphics
+        #       unless you install X11 and configure a Display which requires some pretty serious changes
+        #       to the users Operating System which I was not comfortable making a Requirement
+        which -s pip3
+        if [[ $? == 0 ]]; then
+          __make_header 'Generating Training Model Graphics'
+          rm -fr ./tacotron/visuals/*.png
+          python3 -W ignore mimic2/analyze.py --train_file_path=./tacotron/training/train.txt --save_to=./tacotron/visuals --cmu_dict_path=./tacotron/training/cmudict-0.7b
+
+          # TODO: Check if Model Graphics are clipping because they are no longer being opened by Python via plt.show()
+
+          __output 'Opening Training Graphics in Preview'
+          open ./tacotron/visuals/*.png
+        fi
+
+        # TODO: Open Server to Test TTS Model ( Appears to Require at least 1,000 Recordings )
+
+        # __output 'Opening Browser'
+        # open http://localhost:3000
+
+        # TODO: Need to see how the `185000` "Chekpoint" portion works, and how I can use it to auto launch a server and test the TTS with text input
+
+        # docker run --rm \
+        #   --mount type=bind,source="$(pwd)"/mimic-recording-studio,target=/root/mimic-recording-studio \
+        #   --mount type=bind,source="$(pwd)"/tacotron,target=/root/tacotron \
+        #   -p 3001:3001 mycroft/mimic2:cpu \
+        #   "python3 -W ignore demo_server.py --checkpoint /root/tacotron/logs-tacotron/model.ckpt-185000"
+
+        # TODO: There also appears to be an evaluation script that checks "alignment" so I will be interested to see what this actually does, but here is the code to run it
+
+        # docker run --rm \
+        #   --mount type=bind,source="$(pwd)"/mimic-recording-studio,target=/root/mimic-recording-studio \
+        #   --mount type=bind,source="$(pwd)"/tacotron,target=/root/tacotron \
+        #   -p 3001:3001 mycroft/mimic2:cpu \
+        #   "python3 -W ignore eval.py --checkpoint /root/tacotron/logs-tacotron/model.ckpt-185000
+    else
+        __error 'Missing Mimic Trainer - Run: mimin setup'
+    fi
 }
 
 # Train Script for Windows

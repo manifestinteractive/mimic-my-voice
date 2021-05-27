@@ -39,7 +39,7 @@ __setup_linux(){
 
 # Setup Script for MacOS
 __setup_macos(){
-    __make_header 'My Voice - MacOS Setup'
+    __make_header 'Mimic Recording Studio - MacOS Setup'
 
     __output 'Checking of Homebrew is Installed'
     which -s brew
@@ -91,6 +91,48 @@ __setup_macos(){
     else
       git clone $MIMIC
     fi
+
+    ##################################################
+    # Mimic Trainer
+    ##################################################
+
+    __make_header 'Mimic Trainer - MacOS Setup'
+
+    __output 'Fixing Docker Config in Mimic for MacOS'
+    sed -i '' 's/"\/bin\/bash"/"\/bin\/bash", "-c"/g' mimic2/cpu.Dockerfile
+    sed -i '' 's/COPY \. \/root\/mimic2/COPY mimic2 \/root\/mimic2/g' mimic2/cpu.Dockerfile
+    sed -i '' 's/apt-get install -y llvm-8/apt-get install -y llvm-8 python3-tk/g' mimic2/cpu.Dockerfile
+
+    __output 'Fixing Analyzer'
+    sed -i '' 's/plt.show/# plt.show/g' mimic2/analyze.py
+
+    __output 'Creating Mimic Training Folder'
+    mkdir -p tacotron/training
+
+    __output 'Checking of Python is Installed'
+    which -s pip3
+    if [[ $? != 0 ]]; then
+        # Confirm Install of Python
+        read -p "Would you like to Install Python? " -n 1 -r
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+          __output 'Installing Python'
+          brew install python
+        else
+          __error 'Exiting Setup'
+          __notice 'Python is Required for MacOS Installation'
+          exit 1
+        fi
+    fi
+
+    # Install Python 3 Requirements
+    __output 'Installing Mimic Python Dependencies'
+    pip3 install -r mimic2/requirements.txt
+    pip3 install tensorflow
+    pip3 install matplotlib
+    pip3 install seaborn
+
+    __output 'Downloading Phoneme Dictionary'
+    curl -o tacotron/training/cmudict-0.7b https://raw.githubusercontent.com/Alexir/CMUdict/master/cmudict-0.7b
 }
 
 # Setup Script for Windows

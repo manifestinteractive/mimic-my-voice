@@ -10,8 +10,8 @@ Mimic My Voice
 ![Audio](docs/img/audio.png "Audio")
 ## Features
 
-- [X] [Mycroft Mimic Trainer](https://github.com/MycroftAI/mimic2) Automation
 - [X] [Mycroft Recording Studio](https://github.com/MycroftAI/mimic-recording-studio) Automation
+- [X] [Mycroft Mimic Trainer](https://github.com/MycroftAI/mimic2) Automation
 - [X] [AWS S3](https://aws.amazon.com/s3/) Backup & Restore
 
 ## Requirements

@@ -19,15 +19,15 @@ mimic restore --no-delete
 
 Name      | Flag          | Required | Definition
 ----------|---------------|----------|----------------------------------------------
-Dry Run   | `--dry-run`   | No       | Perform Dry Run of Backup
-No Delete | `--no-delete` | No       | Skip Deleting Local Files not in Backup
+Dry Run   | `--dry-run`   | No       | Restore using Dry Run Only
+No Delete | `--no-delete` | No       | Delete Local Files not in Backup
 
 AWS S3 Configuration
 ---
 
 In order to use AWS S3, you will need to provide your AWS credentials in the `.env` file.  If you have not already done so, duplicate the `.env.example` file and name it `.env` in the same directory.
 
-Before you can perform a backup, you will need to edit your `.env` file and provide the following AWS Credentials:
+Before you can perform your restore, you will need to edit your `.env` file and provide the following AWS Credentials:
 
 Name           | Example                                    | Definition
 ---------------|--------------------------------------------|-----------------------------------------------
