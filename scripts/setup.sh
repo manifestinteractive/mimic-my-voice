@@ -105,6 +105,7 @@ __setup_macos(){
 
     __output 'Fixing Analyzer'
     sed -i '' 's/plt.show/# plt.show/g' mimic2/analyze.py
+    sed -i '' 's/plt.xlabel("character lengths", fontsize=30)/plt.subplots_adjust(bottom=0.22)\n    plt.xlabel("character lengths", fontsize=30)/g' mimic2/analyze.py
 
     __output 'Creating Mimic Training Folder'
     mkdir -p tacotron/training
