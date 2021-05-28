@@ -3,22 +3,22 @@
 Mimic My Voice
 ===
 
-> Text to Speech Engine using My Voice using Mycroft Mimic Trainer & Mimic Recording Studio.
+> Create a Text to Speech Engine using Your Own Voice with Mycroft Mimic Trainer & Mimic Recording Studio.
 
 ### NOTE:  This is a Work in Progress
 
 ![Audio](docs/img/audio.png "Audio")
 ## Features
 
-- [X] [Mycroft Mimic Trainer](https://github.com/MycroftAI/mimic2) Automation
 - [X] [Mycroft Recording Studio](https://github.com/MycroftAI/mimic-recording-studio) Automation
+- [X] [Mycroft Mimic Trainer](https://github.com/MycroftAI/mimic2) Automation
 - [X] [AWS S3](https://aws.amazon.com/s3/) Backup & Restore
 
 ## Requirements
 
 - [X] [Node v12+](https://nodejs.org/en/download/)
 - [X] [Docker Desktop](https://www.docker.com/products/docker-desktop)
-- [X] [AWS S3 Account](https://aws.amazon.com/s3) _( only required for Backup & Restore _)
+- [X] [AWS S3 Account](https://aws.amazon.com/s3) _( only required for Backup & Restore )_
 
 ## Developer Overview
 

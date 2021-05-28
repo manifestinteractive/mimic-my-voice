@@ -36,7 +36,7 @@ __studio_linux(){
 
 # Start Script for MacOS
 __studio_macos(){
-    __make_header 'My Voice - MacOS'
+    __make_header 'Mimic My Voice - MacOS'
 
     __output 'Starting Mimic Recording Studio'
     if [ -d mimic-recording-studio ]; then
@@ -58,7 +58,7 @@ __studio_macos(){
 
         __success 'Mimic Recording Studio Terminated'
     else
-        __error 'Missing Mimic Recording Studio - Run ./scripts/start.sh'
+        __error 'Missing Mimic Recording Studio - Run: mimin setup'
     fi
 }
 
