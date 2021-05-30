@@ -29,7 +29,7 @@ __output(){
 
 __success(){
     TEXT=$( echo $1 | tr '\n' ' ')
-    echo -e "\033[38;5;86;1m✔\033[0m $TEXT\n"
+    echo -e "\n\033[38;5;86;1m✔\033[0m $TEXT\n"
 }
 
 # Setup Script for Linux
@@ -106,6 +106,13 @@ __setup_macos(){
     __output 'Fixing Analyzer'
     sed -i '' 's/plt.show/# plt.show/g' mimic2/analyze.py
     sed -i '' 's/plt.xlabel("character lengths", fontsize=30)/plt.subplots_adjust(bottom=0.22)\n    plt.xlabel("character lengths", fontsize=30)/g' mimic2/analyze.py
+
+    __output 'Fixing Trainer'
+    sed -i '' 's/print(hparams_debug_string())/#print(hparams_debug_string())/g' mimic2/preprocess.py
+    sed -i '' 's/log(hparams_debug_string())/#log(hparams_debug_string())/g' mimic2/train.py
+    sed -i '' 's/None/mimic-my-voice/g' mimic2/train.py
+    sed -i '' 's/ at commit//g' mimic2/train.py
+    sed -i '' 's/print(msg)/print(msg, flush=True)/g' mimic2/util/infolog.py
 
     __output 'Creating Mimic Training Folder'
     mkdir -p tacotron/training
