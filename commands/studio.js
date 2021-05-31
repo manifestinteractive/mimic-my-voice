@@ -1,7 +1,7 @@
 const path = require('path')
-const shell = require('shelljs')
+const exec = require('child_process').execFileSync
 
 module.exports = () => {
   const script = path.resolve(path.join(__dirname, '../scripts', 'studio.sh'))
-  shell.exec(script)
+  exec(script, { stdio: 'inherit', shell: true, killSignal: 'SIGKILL' })
 }

@@ -26,17 +26,62 @@ __output(){
 
 __success(){
     TEXT=$( echo $1 | tr '\n' ' ')
-    echo -e "\033[38;5;86;1m✔\033[0m $TEXT\n"
+    echo -e "\n\033[38;5;86;1m✔\033[0m $TEXT\n"
 }
+
+# Import Environmental Settings
+if [ -f .env ]; then
+  export $(cat .env | sed 's/#.*//g' | xargs)
+else
+  __error "Missing .env File in Root ( Copy .env.example to .env & Update )"
+  exit
+fi
 
 # Train Script for Linux
 __train_linux(){
     __notice 'Linux Support Coming Soon'
+
+    exit
 }
 
 # Train Script for MacOS
 __train_macos(){
-     __make_header 'Mimic My Voice - MacOS'
+    __make_header 'Mimic My Voice - MacOS'
+
+    # Track Number of Recordings
+    TOTAL_FILES=0
+
+    # Get Total Recordings
+    if [ -d mimic-recording-studio/backend/audio_files ]; then
+      while read -rd ''; do ((TOTAL_FILES++)); done < <(find mimic-recording-studio/backend/audio_files/*/ -name "*.wav" -print0)
+    fi
+
+    # If there are no Recordings, then we've got nothing to train
+    if (( $TOTAL_FILES == 0 )); then
+      echo
+      __error 'No Audio Recordings Located'
+      __notice 'Looks like you may need to do some recording first: mimic studio'
+      echo
+
+      exit
+    fi
+
+    # If there are no Recordings, then we've got nothing to train
+    if (( $TOTAL_FILES < 1000 )); then
+      FORMATTED=$(numfmt --grouping $TOTAL_FILES)
+
+      echo
+      __notice "You will need a minimum of 1,000 Recordings to Generate a TTS Model ( $FORMATTED Recordings Located )"
+      __output 'Mimic Trainer will still process recordings, but you will not be able to test your TTS voice in a browser.'
+      echo
+    fi
+
+    # Clean Up Old Log Files
+    rm -fr tacotron/logs-tacotron/events.out.tfevents.*
+    rm -fr tacotron/logs-tacotron/*.log
+    rm -fr tacotron/training/*.npy
+    rm -fr tacotron/training/*.txt
+    rm -fr tacotron/visuals/*.png
 
     __output 'Starting Mimic Trainer'
     if [ -d mimic2 ]; then
@@ -44,7 +89,7 @@ __train_macos(){
         if ! docker info > /dev/null 2>&1; then
             __error 'Docker does not seem to be running, run it first and retry'
             __notice 'Need to Install Docker? https://www.docker.com/products/docker-desktop'
-            exit 1
+            exit
         fi
 
         # Check if Docker Build needs to be created
@@ -57,11 +102,11 @@ __train_macos(){
 
         # Process Data from Mimic Recording Studio
         __make_header 'Processing Mimic Recording Studio Data'
-        docker run --rm \
+        docker run --rm --name=mimic-my-voice \
           --mount type=bind,source="$(pwd)"/mimic-recording-studio,target=/root/mimic-recording-studio \
           --mount type=bind,source="$(pwd)"/tacotron,target=/root/tacotron \
-          -p 3001:3001 mycroft/mimic2:cpu \
-          "python3 -W ignore preprocess.py --dataset mrs --mrs_dir=/root/mimic-recording-studio"
+          -p $PORT_TRAINER:$PORT_TRAINER mycroft/mimic2:cpu \
+          "python3 -W ignore preprocess.py --dataset=mrs --mrs_dir=/root/mimic-recording-studio"
 
         __success 'Processing Data Complete'
 
@@ -77,19 +122,16 @@ __train_macos(){
           # Start Monitor
           tensorboard --logdir tacotron/logs-tacotron --window_title "Mimic My Voice" &> tensorboard.log &
 
-          # Wait a few seconds for Monitor to Start
-          sleep 5
-
           __output 'Opening Monitor in Browser to Track Model Training Progress'
           open http://localhost:6006
         fi
 
         # Train Model from Processed Recording Studio Data
         __output 'Starting Training on Mimic Recording Studio'
-        docker run --rm \
+        docker run --rm --name=mimic-my-voice \
           --mount type=bind,source="$(pwd)"/mimic-recording-studio,target=/root/mimic-recording-studio \
           --mount type=bind,source="$(pwd)"/tacotron,target=/root/tacotron \
-          -p 3001:3001 mycroft/mimic2:cpu \
+          -p $PORT_TRAINER:$PORT_TRAINER mycroft/mimic2:cpu \
           "python3 -W ignore train.py"
 
         __success 'Model Training Complete'
@@ -101,7 +143,6 @@ __train_macos(){
         which -s python3
         if [[ $? == 0 ]]; then
           __make_header 'Generating Training Model Graphics'
-          rm -fr ./tacotron/visuals/*.png
           python3 -W ignore mimic2/analyze.py --train_file_path=./tacotron/training/train.txt --save_to=./tacotron/visuals --cmu_dict_path=./tacotron/training/cmudict-0.7b
 
           __output 'Opening Training Graphics in Preview'
@@ -113,33 +154,37 @@ __train_macos(){
         # TODO: Open Server to Test TTS Model ( Appears to Require at least 1,000 Recordings )
 
         # __output 'Opening Browser'
-        # open http://localhost:3000
+        # open http://localhost:$PORT_DEMO
 
         # TODO: Need to see how the `185000` "Chekpoint" portion works, and how I can use it to auto launch a server and test the TTS with text input
 
-        # docker run --rm \
+        # docker run --rm --name=mimic-my-voice \
         #   --mount type=bind,source="$(pwd)"/mimic-recording-studio,target=/root/mimic-recording-studio \
         #   --mount type=bind,source="$(pwd)"/tacotron,target=/root/tacotron \
-        #   -p 3001:3001 mycroft/mimic2:cpu \
+        #   -p $PORT_TRAINER:$PORT_TRAINER mycroft/mimic2:cpu \
         #   "python3 -W ignore demo_server.py --checkpoint /root/tacotron/logs-tacotron/model.ckpt-185000"
 
         # TODO: There also appears to be an evaluation script that checks "alignment" so I will be interested to see what this actually does, but here is the code to run it
 
-        # docker run --rm \
+        # docker run --rm --name=mimic-my-voice \
         #   --mount type=bind,source="$(pwd)"/mimic-recording-studio,target=/root/mimic-recording-studio \
         #   --mount type=bind,source="$(pwd)"/tacotron,target=/root/tacotron \
-        #   -p 3001:3001 mycroft/mimic2:cpu \
+        #   -p $PORT_TRAINER:$PORT_TRAINER mycroft/mimic2:cpu \
         #   "python3 -W ignore eval.py --checkpoint /root/tacotron/logs-tacotron/model.ckpt-185000
 
         __make_header 'TRAINING COMPLETE'
     else
         __error 'Missing Mimic Trainer - Run: mimin setup'
     fi
+
+    exit
 }
 
 # Train Script for Windows
 __train_windows(){
     __notice 'Windows Support Coming Soon'
+
+    exit
 }
 
 # Check which OS we are using
