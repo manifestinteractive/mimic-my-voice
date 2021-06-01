@@ -47,6 +47,14 @@ __setup_macos(){
   TACOTRON="$CWD/tacotron"
   TRAINER="$CWD/mimic2"
 
+  # Import Environmental Settings
+  if [ -f $ENV ]; then
+    export $(cat $ENV | sed 's/#.*//g' | xargs)
+  else
+    __error "Missing $ENV File ( Copy $CWD/.env.example to $CWD/.env & Update )"
+    exit
+  fi
+
   __make_header 'Mimic My Voice - MacOS Setup'
 
   ##################################################
