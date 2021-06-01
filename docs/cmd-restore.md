@@ -12,7 +12,6 @@ Restore your Mimic Recording Sessions from Amazon AWS S3 using one of the follow
 ```bash
 mimic restore
 mimic restore --dry-run
-mimic restore --no-delete
 ```
 
 **FLAGS:**
@@ -20,7 +19,6 @@ mimic restore --no-delete
 Name      | Flag          | Required | Definition
 ----------|---------------|----------|----------------------------------------------
 Dry Run   | `--dry-run`   | No       | Restore using Dry Run Only
-No Delete | `--no-delete` | No       | Delete Local Files not in Backup
 
 AWS S3 Configuration
 ---
