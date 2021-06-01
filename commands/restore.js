@@ -4,7 +4,9 @@ const path = require('path')
 const S3 = require('s3-sync-client')
 
 // Load .env config file
-require('dotenv').config()
+require('dotenv').config({
+  path: path.resolve(path.join(__dirname, '../.env'))
+})
 
 // Local Directories
 const localPath = path.resolve(path.join(__dirname, '../mimic-recording-studio', 'backend'))
