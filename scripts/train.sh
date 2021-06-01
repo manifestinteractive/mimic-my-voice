@@ -82,6 +82,8 @@ __train_macos(){
     echo
   fi
 
+  cd $CWD
+
   # Clean Up Old Log Files
   rm -fr $TACOTRON/logs-tacotron/events.out.tfevents.*
   rm -fr $TACOTRON/logs-tacotron/*.log
