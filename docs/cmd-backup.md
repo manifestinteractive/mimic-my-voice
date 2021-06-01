@@ -12,7 +12,6 @@ Backup your Mimic Recording Sessions to Amazon AWS S3 using one of the following
 ```bash
 mimic backup
 mimic backup --dry-run
-mimic backup --no-delete
 ```
 
 **FLAGS:**
@@ -20,7 +19,6 @@ mimic backup --no-delete
 Name      | Flag          | Required | Definition
 ----------|---------------|----------|----------------------------------------------
 Dry Run   | `--dry-run`   | No       | Perform Dry Run of Backup
-No Delete | `--no-delete` | No       | Skip Deleting Backup Files not in Local
 
 AWS S3 Configuration
 ---

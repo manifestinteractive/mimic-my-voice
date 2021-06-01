@@ -38,13 +38,13 @@ module.exports = async options => {
     spinner.text = chalk.bold(`Performing Backup${options.dryRun ? ' ( Dry Run Only )' : ''}:`).concat(chalk.dim(' ‣ Audio Files  [Ctrl-C to Cancel]'))
 
     // Upload Local Audio Files to AWS S3
-    await sync.bucketWithLocal(localAudioFiles, s3AudioFiles, { del: options.delete, dryRun: options.dryRun }).catch(err => console.log(err))
+    await sync.bucketWithLocal(localAudioFiles, s3AudioFiles, { del: false, dryRun: options.dryRun }).catch(err => console.log(err))
 
     // Output Progress
     spinner.text = chalk.bold(`Performing Backup${options.dryRun ? ' ( Dry Run Only )' : ''}:`).concat(chalk.dim(' ‣ Database  [Ctrl-C to Cancel]'))
 
     // Upload Local SQLite Database to AWS S3
-    await sync.bucketWithLocal(localDatabase, s3Database, { del: options.delete, dryRun: options.dryRun }).catch(err => console.log(err))
+    await sync.bucketWithLocal(localDatabase, s3Database, { del: false, dryRun: options.dryRun }).catch(err => console.log(err))
 
     // Output Progress
     spinner.succeed('Backup Complete')

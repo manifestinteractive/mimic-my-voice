@@ -80,34 +80,49 @@ __studio_macos(){
 
     # Check if we are doing a clean docker install
     if [[ "$(docker images -q mimic-recording-studio_frontend 2> /dev/null)" == "" ]]; then
+      # Open Docker Container in Browser
+      echo
+      __output 'Opening Browser'
+      __notice 'Browser will reload after Dockers First Build Completes ( this will take a while )'
+
+      # If we already have recordings, then let's take the user to the record page
+      if (( $TOTAL_FILES == 0 )); then
+        open http://localhost:$PORT_STUDIO_FRONTEND
+      else
+        open http://localhost:$PORT_STUDIO_FRONTEND/record
+      fi
+
       __make_header 'Creating Docker Build'
       __notice 'We only need to create this once'
       echo
-    fi
 
-    # Launch Docker in a Detached State and do not recreate it if it's already been built
-    docker compose up --no-recreate --detach
-
-    echo
-    __success 'Mimic Recording Studio Docker Container Started'
-
-    # Wait a little bit for Docker Container to finish initializing
-    sleep 30
-
-    # Open Docker Container in Browser
-    echo
-    __output 'Opening Browser'
-    __notice 'Browser will reload after Docker Build Completes'
-
-    # If we already have recordings, then let's take the user to the record page
-    if (( $TOTAL_FILES == 0 )); then
-      open http://localhost:$PORT_STUDIO_FRONTEND
+      # This is the First Build, which takes a long time, so let's show the output for this one
+      docker compose up
     else
-      open http://localhost:$PORT_STUDIO_FRONTEND/record
-    fi
+      # Launch Docker in a Detached State and do not recreate it if it's already been built
+      docker compose up --no-recreate --detach
 
-    __make_header 'MIMIC RECORDING STUDIO STARTED'
-    exit
+      echo
+      __success 'Mimic Recording Studio Docker Container Started'
+
+      # Wait a little bit for Docker Container to finish initializing
+      sleep 30
+
+      # Open Docker Container in Browser
+      echo
+      __output 'Opening Browser'
+      __notice 'Browser will reload after Docker Build Completes'
+
+      # If we already have recordings, then let's take the user to the record page
+      if (( $TOTAL_FILES == 0 )); then
+        open http://localhost:$PORT_STUDIO_FRONTEND
+      else
+        open http://localhost:$PORT_STUDIO_FRONTEND/record
+      fi
+
+      __make_header 'MIMIC RECORDING STUDIO STARTED'
+      exit
+    fi
   else
     __error 'Missing Mimic Recording Studio - Run: mimin setup'
     exit

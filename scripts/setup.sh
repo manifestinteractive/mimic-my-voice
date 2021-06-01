@@ -104,6 +104,8 @@ __setup_macos(){
   __output 'Downloading Mimic Recording Studio'
   echo
 
+  cd $CWD
+
   # Check if Repo Already Cloned
   if [ -d $STUDIO ]; then
     # Confirm Delete of Old Repo
@@ -113,10 +115,10 @@ __setup_macos(){
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo
       rm -fr $STUDIO
-      git clone $REPO_STUDIO $STUDIO
+      git clone $REPO_STUDIO
     fi
   else
-    git clone $REPO_STUDIO $STUDIO
+    git clone $REPO_STUDIO
   fi
 
   __success 'Download Complete'
@@ -133,10 +135,10 @@ __setup_macos(){
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo
       rm -fr $TRAINER
-      git clone $REPO_TRAINER $TRAINER
+      git clone $REPO_TRAINER
     fi
   else
-    git clone $REPO_TRAINER $TRAINER
+    git clone $REPO_TRAINER
   fi
 
   __success 'Download Complete'

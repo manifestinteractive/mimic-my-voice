@@ -11,11 +11,6 @@ const argv = yargs
   .command('studio', 'Launch Mimic Recording Studio')
   .command('train', 'Launch Mimic Training')
   .command('backup', 'Backup Mimic Sessions to AWS S3', {
-    delete: {
-      describe: 'Delete Backup Files not in Local',
-      type: 'boolean',
-      default: true
-    },
     dryRun: {
       describe: 'Backup using Dry Run Only',
       type: 'boolean',
@@ -23,11 +18,6 @@ const argv = yargs
     }
   })
   .command('restore', 'Restore Mimic Sessions from AWS S3', {
-    delete: {
-      describe: 'Delete Local Files not in Backup',
-      type: 'boolean',
-      default: true
-    },
     dryRun: {
       describe: 'Restore using Dry Run Only',
       type: 'boolean',

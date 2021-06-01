@@ -37,13 +37,13 @@ module.exports = async options => {
     spinner.text = chalk.bold(`Restoring From Backup${options.dryRun ? ' ( Dry Run Only )' : ''}:`).concat(chalk.dim(' ‣ Audio Files  [Ctrl-C to Cancel]'))
 
     // Download Remote Audio Files from AWS S3
-    await sync.localWithBucket(s3AudioFiles, localPath, { del: options.delete, dryRun: options.dryRun }).catch(err => console.log(err))
+    await sync.localWithBucket(s3AudioFiles, localPath, { del: false, dryRun: options.dryRun }).catch(err => console.log(err))
 
     // Output Progress
     spinner.text = chalk.bold(`Restoring From Backup${options.dryRun ? ' ( Dry Run Only )' : ''}:`).concat(chalk.dim(' ‣ Database  [Ctrl-C to Cancel]'))
 
     // Download Remote SQLite Database from AWS S3
-    await sync.localWithBucket(s3Database, localPath, { del: options.delete, dryRun: options.dryRun }).catch(err => console.log(err))
+    await sync.localWithBucket(s3Database, localPath, { del: false, dryRun: options.dryRun }).catch(err => console.log(err))
 
     // Output Progress
     spinner.succeed('Restoring From Backup Complete')
