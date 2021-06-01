@@ -41,6 +41,7 @@ __studio_macos(){
   CWD=$(dirname $(dirname "$0"))
   ENV="$CWD/.env"
   STUDIO="$CWD/mimic-recording-studio"
+  AUDIO_FILES="$STUDIO/backend/audio_files"
 
   # Import Environmental Settings
   if [ -f $ENV ]; then
@@ -54,6 +55,14 @@ __studio_macos(){
 
   __output 'Starting Mimic Recording Studio'
   if [ -d $STUDIO ]; then
+    # Track Number of Recordings
+    TOTAL_FILES=0
+
+    # Get Total Recordings
+    if [ -d $AUDIO_FILES ]; then
+      while read -rd ''; do ((TOTAL_FILES++)); done < <(find $AUDIO_FILES/*/ -name "*.wav" -print0)
+    fi
+
     cd $STUDIO
 
     # Check if docker is running
@@ -89,11 +98,13 @@ __studio_macos(){
     echo
     __output 'Opening Browser'
     __notice 'Browser will reload after Docker Build Completes'
-    open http://localhost:$PORT_STUDIO_FRONTEND
 
-    # TODO: Take user directory to http://localhost:3000/record page if they already have recordings
-
-    # TODO: Fix Tutorial Page at http://localhost:3000/tutorial
+    # If we already have recordings, then let's take the user to the record page
+    if (( $TOTAL_FILES == 0 )); then
+      open http://localhost:$PORT_STUDIO_FRONTEND
+    else
+      open http://localhost:$PORT_STUDIO_FRONTEND/record
+    fi
 
     __make_header 'MIMIC RECORDING STUDIO STARTED'
     exit

@@ -157,7 +157,7 @@ __train_macos(){
       __success 'Model Graphics Generated'
     fi
 
-    # TODO: Open Server to Test TTS Model ( Appears to Require at least 1,000 Recordings )
+    # TODO: Open Server to Test TTS Model ( Appears to Require at least 1,000 Recordings, have not gotten this far yet to verify )
 
     # __output 'Opening Browser'
     # open http://localhost:$PORT_DEMO

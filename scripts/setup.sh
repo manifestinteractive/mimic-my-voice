@@ -105,10 +105,10 @@ __setup_macos(){
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo
       rm -fr $STUDIO
-      git clone $REPO_STUDIO
+      git clone $REPO_STUDIO $STUDIO
     fi
   else
-    git clone $REPO_STUDIO
+    git clone $REPO_STUDIO $STUDIO
   fi
 
   __success 'Download Complete'
@@ -125,10 +125,10 @@ __setup_macos(){
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo
       rm -fr $TRAINER
-      git clone $REPO_TRAINER
+      git clone $REPO_TRAINER $TRAINER
     fi
   else
-    git clone $REPO_TRAINER
+    git clone $REPO_TRAINER $TRAINER
   fi
 
   __success 'Download Complete'
