@@ -109,7 +109,6 @@ __studio_macos(){
       sleep 30
 
       # Open Docker Container in Browser
-      echo
       __output 'Opening Browser'
       __notice 'Browser will reload after Docker Build Completes'
 
