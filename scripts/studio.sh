@@ -63,28 +63,41 @@ __studio_macos(){
         fi
 
         echo
-        __output 'Opening Browser'
-        __notice 'Browser will reload after Docker Build Completes'
-        open http://localhost:$PORT_STUDIO_FRONTEND
-
+        __output 'Starting Mimic Recording Studio Docker Container'
         echo
-        __output 'Starting Mimic Recording Studio [CTRL+C to Cancel]'
 
         # Check if we are doing a clean docker install
         if [[ "$(docker images -q mimic-recording-studio_frontend 2> /dev/null)" == "" ]]; then
           __make_header 'Creating Docker Build'
           __notice 'We only need to create this once'
+          echo
         fi
 
-        docker-compose up
+        # Launch Docker in a Detached State and do not recreate it if it's already been built
+        docker compose up --no-recreate --detach
 
         echo
-        __success 'Mimic Recording Studio Terminated'
+        __success 'Mimic Recording Studio Docker Container Started'
+
+        # Wait a little bit for Docker Container to finish initializing
+        sleep 30
+
+        # Open Docker Container in Browser
+        echo
+        __output 'Opening Browser'
+        __notice 'Browser will reload after Docker Build Completes'
+        open http://localhost:$PORT_STUDIO_FRONTEND
+
+        # TODO: Take user directory to http://localhost:3000/record page if they already have recordings
+
+        # TODO: Fix Tutorial Page at http://localhost:3000/tutorial
+
+        __make_header 'MIMIC RECORDING STUDIO STARTED'
+        exit
     else
         __error 'Missing Mimic Recording Studio - Run: mimin setup'
+        exit
     fi
-
-    exit
 }
 
 # Start Script for Windows
