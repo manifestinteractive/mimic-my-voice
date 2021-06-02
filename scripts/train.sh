@@ -43,7 +43,7 @@ __train_macos(){
   STUDIO="$CWD/mimic-recording-studio"
   TACOTRON="$CWD/tacotron"
   TRAINER="$CWD/mimic2"
-  AUDIO_FILES="$STUDIO/backend/audio_files"
+  AUDIO_FILES="$STUDIO/backend/audio_files/default_user"
 
   # Import Environmental Settings
   if [ -f $ENV ]; then
@@ -60,7 +60,7 @@ __train_macos(){
 
   # Get Total Recordings
   if [ -d $AUDIO_FILES ]; then
-    while read -rd ''; do ((TOTAL_FILES++)); done < <(find $AUDIO_FILES/*/ -name "*.wav" -print0)
+    while read -rd ''; do ((TOTAL_FILES++)); done < <(find $AUDIO_FILES -name "*.wav" -print0)
   fi
 
   # If there are no Recordings, then we've got nothing to train

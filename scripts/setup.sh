@@ -93,7 +93,7 @@ __setup_macos(){
   echo
   __output 'Installing Homebrew Dependencies'
 
-  brew install pkg-config automake libtool portaudio icu4c 2>/dev/null && true
+  brew install pkg-config automake libtool portaudio icu4c python@3.9 2>/dev/null && true
 
   __success 'Brew Setup Complete'
 
@@ -160,27 +160,6 @@ __setup_macos(){
 
   __output 'Creating Mimic Training Folder'
   mkdir -p $TACOTRON/training
-
-  ##################################################
-  # Python Setup
-  ##################################################
-
-  __output 'Checking of Python is Installed'
-  which -s pip3
-  if [[ $? != 0 ]]; then
-    # Confirm Install of Python
-    echo
-    read -p "Would you like to Install Python (y/n)? " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      __output 'Installing Python'
-      brew install python
-    else
-      __error 'Exiting Setup'
-      __notice 'Python is Required for MacOS Installation'
-      exit
-    fi
-  fi
 
   # Install Python 3 Requirements
   __output 'Installing Mimic Python Dependencies'
