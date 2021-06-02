@@ -41,7 +41,7 @@ __studio_macos(){
   CWD=$(dirname $(dirname "$0"))
   ENV="$CWD/.env"
   STUDIO="$CWD/mimic-recording-studio"
-  AUDIO_FILES="$STUDIO/backend/audio_files"
+  AUDIO_FILES="$STUDIO/backend/audio_files/default_user"
 
   # Import Environmental Settings
   if [ -f $ENV ]; then
@@ -60,7 +60,7 @@ __studio_macos(){
 
     # Get Total Recordings
     if [ -d $AUDIO_FILES ]; then
-      while read -rd ''; do ((TOTAL_FILES++)); done < <(find $AUDIO_FILES/*/ -name "*.wav" -print0)
+      while read -rd ''; do ((TOTAL_FILES++)); done < <(find $AUDIO_FILES -name "*.wav" -print0)
     fi
 
     cd $STUDIO
@@ -98,6 +98,10 @@ __studio_macos(){
 
       # This is the First Build, which takes a long time, so let's show the output for this one
       docker compose up
+
+      # If we got here in this script, the user terminated the docker CLI
+      __success 'Mimic Recording Studio Docker Container Stopped'
+      exit
     else
       # Launch Docker in a Detached State and do not recreate it if it's already been built
       docker compose up --no-recreate --detach
