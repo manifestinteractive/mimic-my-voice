@@ -5,13 +5,14 @@ Mimic My Voice
 
 > Create a Text to Speech Engine using Your Own Voice with Mycroft Mimic Trainer & Mimic Recording Studio.
 
-### NOTE:  This is a Work in Progress
+### NOTE:  This is a Work in Progress ( Currently only works on MacOS, but I have not completed Model Training Automation yet )
 
-![Audio](docs/img/audio.png "Audio")
+![demo](docs/img/demo.gif "demo")
+
 ## Features
 
-- [X] [Mycroft Recording Studio](https://github.com/manifestinteractive/mimic-recording-studio) Custom Build
-- [X] [Mycroft Mimic II Trainer](https://github.com/manifestinteractive/mimic2) Custom Build
+- [X] [Mycroft Recording Studio](https://github.com/manifestinteractive/mimic-recording-studio) Custom Build and Setup Automation
+- [X] [Mycroft Mimic II Trainer](https://github.com/manifestinteractive/mimic2) Custom Build and Setup Automation
 - [X] [AWS S3](https://aws.amazon.com/s3/) Backup & Restore
 
 ## Requirements
