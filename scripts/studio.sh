@@ -85,6 +85,10 @@ __studio_macos(){
       __output 'Opening Browser'
       __notice 'Browser will reload after Dockers First Build Completes ( this will take a while )'
 
+      # Kill anything currently running on assigned port
+      lsof -i TCP:$PORT_STUDIO_FRONTEND | grep LISTEN | awk '{print $2}' | xargs kill -9;
+      lsof -i TCP:$PORT_STUDIO_BACKEND | grep LISTEN | awk '{print $2}' | xargs kill -9;
+
       # If we already have recordings, then let's take the user to the record page
       if (( $TOTAL_FILES == 0 )); then
         open http://localhost:$PORT_STUDIO_FRONTEND
