@@ -11,5 +11,4 @@ Thumbs.db
 !.nvmrc
 !mimic-my-voice.code-workspace
 mimic-recording-studio
-mimic2
-tacotron
+TTS

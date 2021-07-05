@@ -5,7 +5,7 @@
 # author: Peter Schmalfeldt <me@peterschmalfeldt.com>
 
 REPO_STUDIO='https://github.com/manifestinteractive/mimic-recording-studio.git'
-REPO_TRAINER='https://github.com/manifestinteractive/mimic2.git'
+REPO_TTS='https://github.com/manifestinteractive/TTS.git'
 
 __make_header(){
   TEXT=$( echo $1 | tr '\n' ' ')
@@ -34,7 +34,145 @@ __success(){
 
 # Setup Script for Linux
 __setup_linux(){
-  __notice 'Linux Support Coming Soon'
+  # Get Directory Info
+  CWD=$(dirname $(dirname "$0"))
+  ENV="$CWD/.env"
+  STUDIO="$CWD/mimic-recording-studio"
+  TACOTRON="$CWD/tacotron"
+  TTS="$CWD/TTS"
+
+  # Import Environmental Settings
+  if [ -f $ENV ]; then
+    export $(cat $ENV | sed 's/#.*//g' | xargs)
+  else
+    __error "Missing $ENV File ( Copy $CWD/.env.example to $CWD/.env & Update )"
+    exit
+  fi
+
+  __make_header 'Mimic My Voice - Linux Setup'
+
+  ##################################################
+  # Python Setup
+  ##################################################
+
+  __output 'Checking if Python is Installed'
+  if [[ $(command -v python3) == "" ]]; then
+    # Confirm Install of Python
+    echo
+    read -p "Would you like to Install Python (y/n)? " -n 1 -r
+    echo
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      __output 'Installing Python'
+
+      echo
+      __notice 'We Need to install system packages that will request your password'
+      echo
+
+      sudo apt-get install python3 python3-pip python3-setuptools python3-gi python3-xlib python3-dbus gir1.2-glib-2.0 gir1.2-gtk-3.0 gir1.2-wnck-3.0
+    else
+      __error 'Exiting Setup'
+      __notice 'Python is Required for Linux Installation'
+      exit
+    fi
+  fi
+
+  __success 'Python Setup Complete'
+
+  ##################################################
+  # Clone Git Repos
+  ##################################################
+
+  __output 'Downloading Mimic Recording Studio'
+  echo
+
+  cd $CWD
+
+  # Check if Repo Already Cloned
+  if [ -d $STUDIO ]; then
+    # Confirm Delete of Old Repo
+    read -p "Mimic Recording Studio Already Downloaded. Delete Existing Install (y/n)? " -n 1 -r
+    echo
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      echo
+      rm -fr $STUDIO
+      git clone $REPO_STUDIO
+    fi
+  else
+    git clone $REPO_STUDIO
+  fi
+
+  __success 'Download Complete'
+
+  __output 'Installing Back-end Dependencies'
+  echo
+
+  cd $STUDIO/backend
+  pip install -r requirements.txt
+
+  __output 'Installing Front-end Dependencies'
+  echo
+
+  cd $STUDIO/frontend
+  npm install
+
+  cd $CWD
+
+  __output 'Downloading Coqui TTS'
+  echo
+
+  # Check if Repo Already Cloned
+  if [ -d $TTS ]; then
+    # Confirm Delete of Old Repo
+    read -p "Coqui TTS Already Downloaded. Delete Existing Install (y/n)? " -n 1 -r
+    echo
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      echo
+      rm -fr $TTS
+      git clone $REPO_TTS
+    fi
+  else
+    git clone $REPO_TTS
+  fi
+
+  __output 'Installing Dependencies'
+  echo
+
+  cd $TTS
+  pip install -r requirements.txt
+  pip install -r requirements.tf.txt
+  pip install ffmpeg-python
+
+  # Do a quick update for Python
+  pip3 install pip setuptools wheel --upgrade
+
+  # Run Setup on TTS
+  python3 ./setup.py install --user
+
+  echo
+  __notice 'We Need to install a system package "espeak-ng" that will request your password'
+  echo
+
+  sudo apt install espeak-ng -y
+  sudo apt install ffmpeg -y
+
+  __success 'Download Complete'
+
+  ##################################################
+  # Update Cloned Repos
+  ##################################################
+
+  __output 'Updating Port Configs'
+
+  sed -i "s/localhost:5000/localhost:$PORT_STUDIO_BACKEND/g" $STUDIO/frontend/src/App/api/index.js
+  sed -i "s/5000/$PORT_STUDIO_BACKEND/g" $STUDIO/docker-compose.yml
+  sed -i "s/3000/$PORT_STUDIO_FRONTEND/g" $STUDIO/docker-compose.yml
+  sed -i "s/english_corpus.csv/$CORPUS/g" $STUDIO/docker-compose.yml
+
+  __make_header 'SETUP COMPLETE'
+
   exit
 }
 
@@ -135,10 +273,10 @@ __setup_macos(){
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo
       rm -fr $TRAINER
-      git clone $REPO_TRAINER
+      git clone $REPO_TTS
     fi
   else
-    git clone $REPO_TRAINER
+    git clone $REPO_TTS
   fi
 
   __success 'Download Complete'

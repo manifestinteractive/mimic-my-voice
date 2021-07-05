@@ -7,8 +7,27 @@
 	"settings": {
     "window.title": "Mimic My Voice${separator}${activeEditorShort}",
 		"cSpell.words": [
+			"acodec",
+			"bidirection",
+			"ffmpeg",
+			"fmax",
+			"fmin",
+			"ljspeech",
+			"mels",
 			"mycroft",
-			"tacotron"
+			"nccl",
+			"noam",
+			"num",
+			"postnet",
+			"preemphasis",
+			"prenet",
+			"reinit",
+			"softmax",
+			"ssim",
+			"stopnet",
+			"tacotron",
+			"thorsten",
+			"wavs"
 		]
 	}
 }

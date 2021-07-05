@@ -17,7 +17,7 @@ Mimic My Voice
 
 ## Requirements
 
-- [X] [Node v12+](https://nodejs.org/en/download/)
+- [X] [Node v14+](https://nodejs.org/en/download/)
 - [X] [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [X] [AWS S3 Account](https://aws.amazon.com/s3) _( only required for Backup & Restore )_
 
