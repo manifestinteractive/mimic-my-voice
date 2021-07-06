@@ -7,6 +7,7 @@ const chalk = require('chalk')
 
 const argv = yargs
   .usage('Usage: mimic <command> --switches')
+  .command('config', 'Configure Project')
   .command('setup', 'Install Mimic & Recording Studio')
   .command('studio', 'Launch Mimic Recording Studio')
   .command('train', 'Launch Mimic Training')
@@ -24,6 +25,7 @@ const argv = yargs
       default: false
     }
   })
+  .example('mimic config', 'Configure Project')
   .example('mimic setup', 'Install Mimic & Mimic Studio')
   .example('mimic studio', 'Launch Mimic Studio')
   .example('mimic train', 'Launch Mimic Training')

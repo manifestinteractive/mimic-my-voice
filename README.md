@@ -27,6 +27,7 @@ Mimic My Voice
 
 Command                                | Description
 ---------------------------------------|--------------------------
+[`mimic config`](docs/cmd-config.md)   | Configure Project
 [`mimic setup`](docs/cmd-setup.md)     | Install Mimic & Mimic Studio
 [`mimic studio`](docs/cmd-studio.md)   | Launch Mimic Recording Studio
 [`mimic train`](docs/cmd-train.md)     | Launch Mimic Training
@@ -38,10 +39,11 @@ Command                                | Description
 
 - [X] [Troubleshooting](docs/troubleshooting.md)
 
-#### Install via NPM
+#### Install via NPM ( Coming Soon )
 
 ```bash
 npm install -g mimic-my-voice
+mimic config
 mimic setup
 ```
 
@@ -51,6 +53,7 @@ mimic setup
 git clone git@github.com:manifestinteractive/mimic-my-voice.git
 cd mimic-my-voice
 npm install -g
+mimic config
 mimic setup
 ```
 
