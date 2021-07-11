@@ -28,11 +28,15 @@ AWS_S3_REGION  | `us-east-1`                                | [\[?\]](https://do
 Mimic Recording Studio Configuration
 ---
 
-Name                 | Example              | Definition
----------------------|----------------------|-----------------------------------------------
-MRS_PORT_BACKEND  | `5000`               | This is the Port you want use for Mimic Recording Studios Back-end API
-MRS_PORT_FRONTEND | `3000`               | This is the Port you want use for Mimic Recording Studios Front-end Client
-MRS_CORPUS_CSV <sup>1</sup>  | `english_corpus.csv` | Name of the CSV file to use in the prompts directory
+Name                        | Example              | Definition
+----------------------------|----------------------|-----------------------------------------------
+MRS_CORPUS_CSV <sup>1</sup> | `english_corpus.csv` | Name of the CSV file to use in the prompts directory
+MRS_PORT_BACKEND            | `5000`               | This is the Port you want use for Mimic Recording Studios Back-end API
+MRS_PORT_FRONTEND           | `3000`               | This is the Port you want use for Mimic Recording Studios Front-end Client
+MRS_PROMPT_SPEED            | `0.9`                | [\[?\]](https://docs.aws.amazon.com/general/latest/gr/s3.html) Speed to use for Browsers TTS when Reading Prompt
+MRS_PROMPT_VOICE            | `Google US English`  | [\[?\]](https://docs.aws.amazon.com/general/latest/gr/s3.html) Voice to use for Browsers TTS when Reading Prompt
+MRS_SPEECH_LANGUAGE         | `en-US`              | [\[?\]](https://docs.aws.amazon.com/general/latest/gr/s3.html) ISO Code for Language you are Speaking
+MRS_USERNAME                | `default_user`       | Username you are using for Mimic Recording Studio ( only A-Z, underscore or dashes )
 
 Footnotes
 ---

@@ -26,6 +26,13 @@ function config_macos(){
 
   load_config
 
+  # TODO: Make each of these config settings its own function
+  # TODO: If a user enters an invalid config setting, re-request, rather than skip to next
+  # TODO: Prompt for Settings in Alphabetical Order for MRS configs
+  # TODO: Split up Config Prompts into Groups
+  # TODO: Possibly add flag to allow user to pass in specific config they want to update, if key only, prompt for value, if value, check with regex and just update if valid
+  # TODO: Make sure config settings that are strings are encapsulated in double quotes
+
   # ==================================================
 
   # CONFIGURE AWS_ACCESS_KEY
@@ -170,7 +177,7 @@ function config_macos(){
 
   # Check if there was an update
   if [[ "$MRS_USERNAME" != "$VALUE" ]]; then
-    REGEX='^[a-zA-Z0-9_-]$'
+    REGEX='^[a-zA-Z_-]$'
 
     if [[ $VALUE =~ $REGEX ]]; then
       sed -i '' "s/MRS_USERNAME=$MRS_USERNAME/MRS_USERNAME=$VALUE/g" $ENV

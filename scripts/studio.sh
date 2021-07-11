@@ -14,6 +14,9 @@ function start_docker(){
   cp $ENV $MRS/frontend/.env
   cp $ENV $MRS/backend/.env
 
+  # TODO: Create a function to copy only the ENV settings needed for each folder
+  # TODO: Front-end requires `REACT_APP_` prefix for any ENV settings, so automate this as well
+
   # Track Number of Recordings
   TOTAL_FILES=0
 

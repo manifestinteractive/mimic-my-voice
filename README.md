@@ -59,4 +59,4 @@ mimic setup
 
 ## Disclaimer
 
-The trademarks and product names of Mycroft, including the Mycroft mark, are the property of [Mycroft.ai](https://mycroft.ai). Peter Schmalfeldt is not affiliated with Mycroft, nor does Mycroft sponsor or endorse Peter Schmalfeldt's projects or website. The use of the Mycroft trademark on this project does not indicate an endorsement, recommendation, or business relationship between Mycroft and Peter Schmalfeldt.
+The trademarks and product names of Mycroft and Coqui, including the their marks, are the property of [Mycroft.ai](https://mycroft.ai) and [Coqui.ai](https://coqui.ai/) respectively. Peter Schmalfeldt is not affiliated with Mycroft or Coqui, nor do they sponsor or endorse Peter Schmalfeldt's projects or website. The use of their trademarks on this project does not indicate an endorsement, recommendation, or business relationship between these organizations and Peter Schmalfeldt.
