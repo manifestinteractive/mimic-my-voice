@@ -1,18 +1,18 @@
-![Logo](docs/img/mycroft-logo.png "Logo")
+![Header Logo](docs/img/header.png "Header Logo")
 
 Mimic My Voice
 ===
 
-> Create a Text to Speech Engine using Your Own Voice with Mycroft Mimic Trainer & Mimic Recording Studio.
+> Create a Text to Speech Engine using Your Own Voice with Mycroft's Mimic Recording Studio & Coqui Text to Speech.
 
-### NOTE:  This is a Work in Progress ( Currently only works on MacOS, but I have not completed Model Training Automation yet )
+### NOTE:  This is a Work in Progress
 
 ![demo](docs/img/demo.gif "demo")
 
 ## Features
 
 - [X] [Mycroft Recording Studio](https://github.com/manifestinteractive/mimic-recording-studio) Custom Build and Setup Automation
-- [X] [Mycroft Mimic II Trainer](https://github.com/manifestinteractive/mimic2) Custom Build and Setup Automation
+- [X] [Coqui TTS](https://github.com/manifestinteractive/tts) Custom Build and Setup Automation
 - [X] [AWS S3](https://aws.amazon.com/s3/) Backup & Restore
 
 ## Requirements

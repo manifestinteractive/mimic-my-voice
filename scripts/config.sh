@@ -106,58 +106,77 @@ function config_macos(){
 
   # ==================================================
 
-  # CONFIGURE PORT_STUDIO_BACKEND
-  [[ $PORT_STUDIO_BACKEND ]] && DEFAULT=" [$PORT_STUDIO_BACKEND]" || DEFAULT=""
-  read -p "PORT_STUDIO_BACKEND$DEFAULT: " VALUE
-  VALUE=${VALUE:-$PORT_STUDIO_BACKEND}
+  # CONFIGURE MRS_PORT_BACKEND
+  [[ $MRS_PORT_BACKEND ]] && DEFAULT=" [$MRS_PORT_BACKEND]" || DEFAULT=""
+  read -p "MRS_PORT_BACKEND$DEFAULT: " VALUE
+  VALUE=${VALUE:-$MRS_PORT_BACKEND}
 
   # Check if there was an update
-  if [[ "$PORT_STUDIO_BACKEND" != "$VALUE" ]]; then
+  if [[ "$MRS_PORT_BACKEND" != "$VALUE" ]]; then
     REGEX='^[0-9]+$'
 
     if [[ $VALUE =~ $REGEX ]]; then
-      sed -i '' "s/PORT_STUDIO_BACKEND=$PORT_STUDIO_BACKEND/PORT_STUDIO_BACKEND=$VALUE/g" $ENV
+      sed -i '' "s/MRS_PORT_BACKEND=$MRS_PORT_BACKEND/MRS_PORT_BACKEND=$VALUE/g" $ENV
     else
-      error 'Invalid Value for PORT_STUDIO_BACKEND'
+      error 'Invalid Value for MRS_PORT_BACKEND'
       notice 'Use Numbers Only.'
     fi
   fi
 
   # ==================================================
 
-  # CONFIGURE PORT_STUDIO_FRONTEND
-  [[ $PORT_STUDIO_FRONTEND ]] && DEFAULT=" [$PORT_STUDIO_FRONTEND]" || DEFAULT=""
-  read -p "PORT_STUDIO_FRONTEND$DEFAULT: " VALUE
-  VALUE=${VALUE:-$PORT_STUDIO_FRONTEND}
+  # CONFIGURE MRS_PORT_FRONTEND
+  [[ $MRS_PORT_FRONTEND ]] && DEFAULT=" [$MRS_PORT_FRONTEND]" || DEFAULT=""
+  read -p "MRS_PORT_FRONTEND$DEFAULT: " VALUE
+  VALUE=${VALUE:-$MRS_PORT_FRONTEND}
 
   # Check if there was an update
-  if [[ "$PORT_STUDIO_FRONTEND" != "$VALUE" ]]; then
+  if [[ "$MRS_PORT_FRONTEND" != "$VALUE" ]]; then
     REGEX='^[0-9]+$'
 
     if [[ $VALUE =~ $REGEX ]]; then
-      sed -i '' "s/PORT_STUDIO_FRONTEND=$PORT_STUDIO_FRONTEND/PORT_STUDIO_FRONTEND=$VALUE/g" $ENV
+      sed -i '' "s/MRS_PORT_FRONTEND=$MRS_PORT_FRONTEND/MRS_PORT_FRONTEND=$VALUE/g" $ENV
     else
-      error 'Invalid Value for PORT_STUDIO_FRONTEND'
+      error 'Invalid Value for MRS_PORT_FRONTEND'
       notice 'Use Numbers Only.'
     fi
   fi
 
   # ==================================================
 
-  # CONFIGURE CORPUS
-  [[ $CORPUS ]] && DEFAULT=" [$CORPUS]" || DEFAULT=""
-  read -p "CORPUS$DEFAULT: " VALUE
-  VALUE=${VALUE:-$CORPUS}
+  # CONFIGURE MRS_CORPUS_CSV
+  [[ $MRS_CORPUS_CSV ]] && DEFAULT=" [$MRS_CORPUS_CSV]" || DEFAULT=""
+  read -p "MRS_CORPUS_CSV$DEFAULT: " VALUE
+  VALUE=${VALUE:-$MRS_CORPUS_CSV}
 
   # Check if there was an update
-  if [[ "$CORPUS" != "$VALUE" ]]; then
+  if [[ "$MRS_CORPUS_CSV" != "$VALUE" ]]; then
     REGEX='^[a-zA-Z_.]+csv$'
 
     if [[ $VALUE =~ $REGEX ]]; then
-      sed -i '' "s/CORPUS=$CORPUS/CORPUS=$VALUE/g" $ENV
+      sed -i '' "s/MRS_CORPUS_CSV=$MRS_CORPUS_CSV/MRS_CORPUS_CSV=$VALUE/g" $ENV
     else
-      error 'Invalid Value for CORPUS'
+      error 'Invalid Value for MRS_CORPUS_CSV'
       notice 'A-Z, dash or underscore characters only.  Must end with .csv'
+    fi
+  fi
+
+  # ==================================================
+
+  # CONFIGURE MRS_USERNAME
+  [[ $MRS_USERNAME ]] && DEFAULT=" [$MRS_USERNAME]" || DEFAULT=""
+  read -p "MRS_USERNAME$DEFAULT: " VALUE
+  VALUE=${VALUE:-$MRS_USERNAME}
+
+  # Check if there was an update
+  if [[ "$MRS_USERNAME" != "$VALUE" ]]; then
+    REGEX='^[a-zA-Z0-9_-]$'
+
+    if [[ $VALUE =~ $REGEX ]]; then
+      sed -i '' "s/MRS_USERNAME=$MRS_USERNAME/MRS_USERNAME=$VALUE/g" $ENV
+    else
+      error 'Invalid Value for MRS_USERNAME'
+      notice 'Username can only contain A-Z, 0-9, underscores and dashes'
     fi
   fi
 

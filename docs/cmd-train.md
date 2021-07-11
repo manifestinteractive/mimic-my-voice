@@ -1,4 +1,4 @@
-![Logo](img/mycroft-logo.png "Logo")
+![Header Logo](img/header.png "Header Logo")
 
 **[↤ Developer Overview](../README.md#developer-overview)**
 

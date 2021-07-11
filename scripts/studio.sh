@@ -9,6 +9,11 @@
 
 # Run Docker Instance
 function start_docker(){
+  # Copy .env
+  cp $ENV $MRS/.env
+  cp $ENV $MRS/frontend/.env
+  cp $ENV $MRS/backend/.env
+
   # Track Number of Recordings
   TOTAL_FILES=0
 
@@ -17,7 +22,7 @@ function start_docker(){
     while read -rd ''; do ((TOTAL_FILES++)); done < <(find $AUDIO_FILES -name "*.wav" -print0)
   fi
 
-  cd $STUDIO
+  cd $MRS
 
   # Check if docker is running
   if ! docker info > /dev/null 2>&1; then
@@ -41,9 +46,9 @@ function start_docker(){
 
     # If we already have recordings, then let's take the user to the record page
     if (( $TOTAL_FILES == 0 )); then
-      open http://localhost:$PORT_STUDIO_FRONTEND
+      open http://localhost:$MRS_PORT_FRONTEND
     else
-      open http://localhost:$PORT_STUDIO_FRONTEND/record
+      open http://localhost:$MRS_PORT_FRONTEND/record
     fi
 
     make_header 'Creating Docker Build'
@@ -72,12 +77,12 @@ function start_docker(){
 
     # If we already have recordings, then let's take the user to the record page
     if (( $TOTAL_FILES == 0 )); then
-      open http://localhost:$PORT_STUDIO_FRONTEND
+      open http://localhost:$MRS_PORT_FRONTEND
     else
-      open http://localhost:$PORT_STUDIO_FRONTEND/record
+      open http://localhost:$MRS_PORT_FRONTEND/record
     fi
 
-    make_header 'MIMIC RECORDING STUDIO STARTED'
+    make_header 'MIMIC RECORDING MRS STARTED'
     exit
   fi
 }
@@ -96,13 +101,14 @@ function studio_macos(){
   make_header 'Mimic My Voice - MacOS'
 
   output 'Starting Mimic Recording Studio'
-  if [ -d $STUDIO ]; then
+  if [ -d $MRS ]; then
     # Start Docker Containers for MRS
     start_docker
   else
     error 'Missing Mimic Recording Studio - Run: mimin setup'
-    exit
   fi
+
+  exit
 }
 
 # Start Script for Windows

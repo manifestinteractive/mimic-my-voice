@@ -15,18 +15,18 @@ function clone_repos(){
   cd $CWD
 
   # Check if Repo Already Cloned
-  if [ -d $STUDIO ]; then
+  if [ -d $MRS ]; then
     # Confirm Delete of Old Repo
     read -p "Mimic Recording Studio Already Downloaded. Delete Existing Install (y/n)? " -n 1 -r
     echo
 
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo
-      rm -fr $STUDIO
-      git clone $REPO_STUDIO
+      rm -fr $MRS
+      git clone $REPO_MRS
     fi
   else
-    git clone $REPO_STUDIO
+    git clone $REPO_MRS
   fi
 
   success 'Download Complete'
@@ -93,13 +93,13 @@ function setup_linux(){
   output 'Installing Mimic Recording Studio Back-end Dependencies'
   echo
 
-  cd $STUDIO/backend
+  cd $MRS/backend
   pip install -r requirements.txt
 
   output 'Installing Mimic Recording Studio Front-end Dependencies'
   echo
 
-  cd $STUDIO/frontend
+  cd $MRS/frontend
   npm install
 
   # Install Coqui TTS Dependencies
@@ -124,15 +124,6 @@ function setup_linux(){
   sudo apt install espeak-ng -y
   sudo apt install ffmpeg -y
 
-  # Update Cloned Repos
-  output 'Updating Port Configs'
-
-  # TODO: Update these files to use environmental variables
-  sed -i "s/localhost:5000/localhost:$PORT_STUDIO_BACKEND/g" $STUDIO/frontend/src/App/api/index.js
-  sed -i "s/5000/$PORT_STUDIO_BACKEND/g" $STUDIO/docker-compose.yml
-  sed -i "s/3000/$PORT_STUDIO_FRONTEND/g" $STUDIO/docker-compose.yml
-  sed -i "s/english_corpus.csv/$CORPUS/g" $STUDIO/docker-compose.yml
-
   make_header 'SETUP COMPLETE'
 
   exit
@@ -147,15 +138,6 @@ function setup_macos(){
 
   # Clone Git Repos
   clone_repos
-
-  # Update Cloned Repos
-  output 'Updating Port Configs'
-
-  # TODO: Update these files to use environmental variables
-  sed -i '' "s/localhost:5000/localhost:$PORT_STUDIO_BACKEND/g" $STUDIO/frontend/src/App/api/index.js
-  sed -i '' "s/5000/$PORT_STUDIO_BACKEND/g" $STUDIO/docker-compose.yml
-  sed -i '' "s/3000/$PORT_STUDIO_FRONTEND/g" $STUDIO/docker-compose.yml
-  sed -i '' "s/english_corpus.csv/$CORPUS/g" $STUDIO/docker-compose.yml
 
   # All Done
   make_header 'SETUP COMPLETE'
